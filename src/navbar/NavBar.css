@@ -1,0 +1,5 @@
+.nav-bar-button-group {
+  display: flex;
+  flex-direction: block;
+  align-items: center;
+}

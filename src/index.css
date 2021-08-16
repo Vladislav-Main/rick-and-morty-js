@@ -11,3 +11,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.pagination {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+.current-page {
+  background-color: rgba(202, 202, 202, 0.562);
+}
+
+.table-body {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  max-width: 75%;
+}
