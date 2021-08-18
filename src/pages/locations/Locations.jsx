@@ -11,6 +11,7 @@ import { TypeSearch } from './components/TypeSearch';
 import { DimensionSearch } from './components/DimensionSearch';
 import { Spinner } from '../../UI/Spinner';
 import { Failed } from '../../UI/Failed';
+import { SearchFailure } from '../../UI/SearchFailure';
 
 export const Locations = () => {
   const dispatch = useDispatch();
@@ -24,14 +25,6 @@ export const Locations = () => {
     dispatch(getLocation({ currentPage, name, type, dimension }));
   }, [dispatch, currentPage, name, type, dimension]);
 
-  if (status === 'loading') {
-    return <Spinner />;
-  }
-
-  if (status === 'failed') {
-    return <Failed />;
-  }
-
   return (
     <div className="row mt-1">
       <div className="col-4 mb-2">
@@ -44,8 +37,16 @@ export const Locations = () => {
         <DimensionSearch />
       </div>
 
-      <LocationPagination />
-      <Table data={data} />
+      {status === 'loading' ? (
+        <Spinner />
+      ) : status === 'failed' ? (
+        <Failed />
+      ) : data.length === 0 ? (
+        <SearchFailure />
+      ) : (
+        <Table data={data} />
+      )}
+
       <LocationPagination />
     </div>
   );

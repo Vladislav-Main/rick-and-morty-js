@@ -1,8 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
 import { setItemId, setModalOpen } from '../../../redux/sort/sortSlice';
-import './Card.css';
-
 
 export const Card = ({ item }) => {
   const dispatch = useDispatch();
@@ -22,7 +20,7 @@ export const Card = ({ item }) => {
             className="card-img-top"
             alt={'image' + item.id}
           />
-          <h5 className="card-title">{item.name}</h5>
+          <h5 className="card-title mt-1">{item.name}</h5>
           <h5 className="card-title">{item.status}</h5>
         </div>
       </button>

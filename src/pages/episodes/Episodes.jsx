@@ -9,6 +9,7 @@ import { InputSearch } from '../../UI/InputSearch';
 import { Table } from './components/Table';
 import { Spinner } from '../../UI/Spinner';
 import { Failed } from '../../UI/Failed';
+import { SearchFailure } from '../../UI/SearchFailure';
 
 export const Episodes = () => {
   const dispatch = useDispatch();
@@ -22,21 +23,19 @@ export const Episodes = () => {
     dispatch(getEpisode({ currentPage, name }));
   }, [dispatch, currentPage, name]);
 
-  if (status === 'loading') {
-    return <Spinner />;
-  }
-
-  if (status === 'failed') {
-    return <Failed />;
-  }
-
   return (
     <div>
       <InputSearch />
-      <div className="pagination">
-        <EpisodePagination />
-      </div>
-      <Table data={data} />
+      {status === 'loading' ? (
+        <Spinner />
+      ) : status === 'failed' ? (
+        <Failed />
+      ) : data.length === 0 ? (
+        <SearchFailure />
+      ) : (
+        <Table data={data} />
+      )}
+
       <div className="pagination">
         <EpisodePagination />
       </div>

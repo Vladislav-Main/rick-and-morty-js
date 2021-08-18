@@ -1,5 +1,8 @@
-import { createAsyncThunk, createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-
+import {
+  createAsyncThunk,
+  createEntityAdapter,
+  createSlice,
+} from '@reduxjs/toolkit';
 
 export const getEpisode = createAsyncThunk(
   'episodes/getEpisodes',
@@ -37,13 +40,20 @@ const episodeSlice = createSlice({
       state.status = 'loading';
     },
     [getEpisode.fulfilled]: (state, { payload }) => {
-      episodeAdapter.setAll(state, payload.results);
+      if (payload.error) {
+        episodeAdapter.setAll(state, []);
+        state.prevPage = '';
+        state.nextPage = '';
+        state.pagesCount = 0;
+        state.totalItems = 0;
+      } else {
+        state.prevPage = payload.info.prev;
+        state.nextPage = payload.info.next;
+        state.pagesCount = payload.info.pages;
+        state.totalItems = payload.info.count;
+        episodeAdapter.setAll(state, payload.results);
+      }
       state.status = 'success';
-
-      state.prevPage = payload.info.prev;
-      state.nextPage = payload.info.next;
-      state.pagesCount = payload.info.pages;
-      state.totalItems = payload.info.count;
     },
     [getEpisode.rejected]: (state) => {
       state.status = 'failed';

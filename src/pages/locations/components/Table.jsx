@@ -5,7 +5,7 @@ export const Table = ({ data }) => {
     <>
       <div className="card table-body">
         <div className="card-body">
-          <table class="table">
+          <table className="table">
             <thead>
               <tr>
                 <th scope="col">#</th>

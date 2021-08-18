@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
+import { setCharacterCurrentPage } from '../../../redux/pagination/paginationSlice';
 import { setGender } from '../../../redux/sort/sortSlice';
 
 export const GenderSort = () => {
@@ -16,8 +17,10 @@ export const GenderSort = () => {
   ];
 
   const onChange = (value) => {
+    dispatch(setCharacterCurrentPage(1));
     dispatch(setGender(value.value));
   };
+  let selectedStatus = options.find((v)=>v.value===gender);
 
-  return <Select value={gender.value} onChange={onChange} options={options} />;
+  return <Select value={selectedStatus} onChange={onChange} options={options} />;
 };

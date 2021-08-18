@@ -46,13 +46,20 @@ const locationSlice = createSlice({
       state.status = 'loading';
     },
     [getLocation.fulfilled]: (state, { payload }) => {
-      locationAdapter.setAll(state, payload.results);
+      if (payload.error) {
+        locationAdapter.setAll(state, []);
+        state.prevPage = '';
+        state.nextPage = '';
+        state.pagesCount = 0;
+        state.totalItems = 0;
+      } else {
+        state.prevPage = payload.info.prev;
+        state.nextPage = payload.info.next;
+        state.pagesCount = payload.info.pages;
+        state.totalItems = payload.info.count;
+        locationAdapter.setAll(state, payload.results);
+      }
       state.status = 'success';
-
-      state.prevPage = payload.info.prev;
-      state.nextPage = payload.info.next;
-      state.pagesCount = payload.info.pages;
-      state.totalItems = payload.info.count;
     },
     [getLocation.rejected]: (state) => {
       state.status = 'failed';

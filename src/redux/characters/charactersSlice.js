@@ -4,7 +4,6 @@ import {
   createSlice,
 } from '@reduxjs/toolkit';
 
-
 export const getCharacter = createAsyncThunk(
   'characters/getCharacters',
   async (params) => {
@@ -47,13 +46,20 @@ const charactersSlice = createSlice({
       state.status = 'loading';
     },
     [getCharacter.fulfilled]: (state, { payload }) => {
-      charactersAdapter.setAll(state, payload.results);
+      if (payload.error) {
+        charactersAdapter.setAll(state, []);
+        state.prevPage = '';
+        state.nextPage = '';
+        state.pagesCount = 0;
+        state.totalItems = 0;
+      } else {
+        state.prevPage = payload.info.prev;
+        state.nextPage = payload.info.next;
+        state.pagesCount = payload.info.pages;
+        state.totalItems = payload.info.count;
+        charactersAdapter.setAll(state, payload.results);
+      }
       state.status = 'success';
-
-      state.prevPage = payload.info.prev;
-      state.nextPage = payload.info.next;
-      state.pagesCount = payload.info.pages;
-      state.totalItems = payload.info.count;
     },
     [getCharacter.rejected]: (state) => {
       state.status = 'failed';

@@ -2,9 +2,9 @@ import React from 'react';
 
 export const Spinner = () => {
   return (
-    <div class="text-center text-success">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
+    <div className="text-center text-success">
+      <div className="spinner-border" role="status">
+        <span className="visually-hidden">Loading...</span>
       </div>
     </div>
   );

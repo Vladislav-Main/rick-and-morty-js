@@ -1,6 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
+import { setCharacterCurrentPage } from '../../../redux/pagination/paginationSlice';
 import { setSpecies } from '../../../redux/sort/sortSlice';
 
 export const SpeciesSort = () => {
@@ -22,8 +23,13 @@ export const SpeciesSort = () => {
   ];
 
   const onChange = (value) => {
+    dispatch(setCharacterCurrentPage(1));
     dispatch(setSpecies(value.value));
   };
 
-  return <Select value={species.value} onChange={onChange} options={options} />;
+  let selectedStatus = options.find((v) => v.value === species);
+
+  return (
+    <Select value={selectedStatus} onChange={onChange} options={options} />
+  );
 };
